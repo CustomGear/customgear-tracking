@@ -62,7 +62,7 @@
     .state-box.loading { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); display: block; }
 
     /* Result card */
-    #resultCard { display: none; }
+    #resultCard { }
     .order-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
     .order-eyebrow { font-size: 11px; color: var(--text-hint); text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 3px; }
     .order-name { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
@@ -212,7 +212,7 @@
   const STEP_EL    = { production:"stepProduction", transit:"stepTransit", local:"stepLocal", outfordelivery:"stepDelivery", delivered:"stepDelivery" };
 
   function setText(id, val) { document.getElementById(id).textContent = val || ""; }
-  function showEl(id)  { document.getElementById(id).style.display = ""; }
+  function showEl(id, display) { document.getElementById(id).style.display = display || "block"; }
   function hideEl(id)  { document.getElementById(id).style.display = "none"; }
 
   function setError(msg) {
