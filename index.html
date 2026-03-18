@@ -134,7 +134,7 @@
     </div>
     <div class="search-hint">Your code is in your order confirmation email.</div>
     <div id="errorBox" class="state-box"></div>
-    <div id="loadingBox" class="state-box">Fetching your shipment details…</div>
+    <div id="loadingBox" class="state-box">Fetching your shipment details — this may take up to 30 seconds…</div>
   </div>
 
   <!-- Result card (hidden until data loads) -->
@@ -272,7 +272,10 @@
     setLoading(true);
 
     try {
-      const res = await fetch(APPS_URL + "?code=" + encodeURIComponent(code), { redirect: "follow" });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 55000);
+      const res = await fetch(APPS_URL + "?code=" + encodeURIComponent(code), { redirect: "follow", signal: controller.signal });
+      clearTimeout(timeout);
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       setLoading(false);
