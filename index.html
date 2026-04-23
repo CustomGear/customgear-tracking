@@ -230,6 +230,17 @@
     });
   }
 
+  function sanitizeCarrierMessage(msg, status) {
+    var customs = /government agenc|customs authority|customs clearance|cleared customs|held by customs|released by customs|transferred to.*customs|customs|import scan|export scan|regulatory requirement|border/i;
+    if (!customs.test(msg)) return msg;
+    if (!status) return "Your order is being processed.";
+    var s = status.toLowerCase();
+    if (s === "delivered") return "Your shipment has been delivered.";
+    if (s === "outfordelivery") return "Your order is out for delivery.";
+    if (s === "local") return "Your shipment has arrived in the destination area.";
+    return "Your shipment is progressing through the shipping network.";
+  }
+
   function render(data) {
     const ups = data.upsData || {};
     const hasStatus = !!ups.status;
@@ -253,8 +264,8 @@
     if (ups.eta) { setText("eta", ups.eta); showEl("etaCell"); }
     else { hideEl("etaCell"); }
 
-    // Carrier message
-    if (ups.message) { setText("msgText", ups.message); showEl("msgBox"); }
+    // Carrier message — strip customs/government references before showing client
+    if (ups.message) { setText("msgText", sanitizeCarrierMessage(ups.message, ups.status)); showEl("msgBox"); }
     else { hideEl("msgBox"); }
 
     // Timeline
