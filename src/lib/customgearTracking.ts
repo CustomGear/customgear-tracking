@@ -377,13 +377,14 @@ export async function getCustomGearTracking(code: string): Promise<CustomGearTra
   const eta = etaUnavailable ? "" : ups.estimatedDelivery;
   const rawMessage = statusText || "Shipment in progress.";
 
+  const sanitized = sanitizeMessage(rawMessage, progressKey);
   return {
     customerName: order.customerName || "—",
     destination: order.destination || "—",
-    status: statusText,
+    status: sanitized,
     estimatedDelivery: ups.estimatedDelivery,
     progressKey,
-    message: sanitizeMessage(rawMessage, progressKey),
+    message: sanitized,
     eta,
   };
 }

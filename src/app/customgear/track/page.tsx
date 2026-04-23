@@ -53,7 +53,7 @@ export default function CustomGearTrackPage() {
         status: String(data.status || ""),
         estimatedDelivery: String(data.estimatedDelivery || ""),
         progressKey: (data.progressKey as TrackingResult["progressKey"]) || "production",
-        message: String(data.message || data.status || ""),
+        message: String(data.message || ""),
         eta: String(data.eta || ""),
       });
     } catch (err) {
